@@ -33,10 +33,10 @@ If you are using fish, write
 
      pip install -r requirements.txt
 
-### 5 | Take o look at modules to see and understand wicth functions you have in the lib. Go inside lib and take a look careful
+### 6 | Take o look at modules to see and understand wicth functions you have in the lib. Go inside lib and take a look careful
 
 
-### 6 | Now, to use some function you need to make it importation, from this package. like that
+### 7 | Now, to use some function you need to make it importation, from this package. like that
 
      from IJGeneralUsagePackage.ijhandlefiles import (
           create_diretory,
@@ -44,6 +44,6 @@ If you are using fish, write
           write_log_file
      )
 
-### 7 | [WARNING ] If you get some Error from the lib, it should be because of PATH SYSTEM. I recomend you run a folling module:
+### 8 | [WARNING ] If you get some Error from the lib, it should be because of PATH SYSTEM. I recomend you run a folling module:
 
      python IJGeneralUsagePackage/prepare_environment.py
