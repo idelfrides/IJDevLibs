@@ -161,10 +161,9 @@ def delete_file(dir_name, file_name):
 def delete_dir(workspace_name=None, dir_name_list=[]):
 
     cwd = chdir_witout_log(workspace=workspace_name, return_cwdir='yes')
+    workspace_name = cwd.split('/')[-1]
 
     for dir_name in dir_name_list:
-
-        workspace_name = cwd.split('/')[-1]
 
         print_log(f'REMOVING DIR {dir_name} IN WORKSPACE [{workspace_name}] ')
 
