@@ -230,7 +230,7 @@ def prepare_convert_files_to_csv(filetype=None, full_file_path=None, destiny_dir
         )
 
     elif filetype == 'json':
-        # TODO: Create a logic for thsi operation
+        # TODO: Create a logic for this operation
         pass
     else:
         pass
@@ -243,8 +243,6 @@ def prepare_convert_files_to_csv(filetype=None, full_file_path=None, destiny_dir
 def convert_xlsx_to_csv_file(origin_full_file_path, destiny_real_path, result_file_name):
 
     xlsx_content = pd.read_excel(origin_full_file_path)
-
-    # real_result_file_name = '{}'.format(result_file_name)
 
     destiny_real_path += '/'
 

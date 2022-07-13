@@ -187,6 +187,9 @@ def delete_dir(workspace_name=None, dir_name_list=[]):
 
 
 def copy_libs(originDir=None, destinyDir=None):
+
+    # TODO: CORRECT THIS FUNCTIN
+
     print_log('START COPING [ libs.py ]')
 
     origin_path = os.getcwd()
@@ -372,6 +375,7 @@ def bot_convert_file():
 
     """
         IN construction yet
+        TODO: FINISH THIS FUNCTION
     """
 
     XPATH_LOAD_FILE = '//*[@id="filebutton"]'
