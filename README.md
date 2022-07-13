@@ -24,14 +24,19 @@ If you are using fish, write
 
      source [your_venv_name]/bin/activate.fish
 
-### 4 | Install requirements
+### 4 | To Install requirements, switch to IJGeneralUsagePackage. In your terminal, type
+
+     cd IJGeneralUsagePackage
+
+
+### 5 | Install requirements
 
      pip install -r requirements.txt
 
 ### 5 | Take o look at modules to see and understand wicth functions you have in the lib. Go inside lib and take a look careful
 
 
-### 6 | Now, to user some function you need to make it importation, like that
+### 6 | Now, to use some function you need to make it importation, from this package. like that
 
      from IJGeneralUsagePackage.ijhandlefiles import (
           create_diretory,
