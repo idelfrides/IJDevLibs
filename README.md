@@ -9,7 +9,7 @@ This package contain several functions to build any application you as a Dev nee
 
 ### 1 | Clone the remote repository to your workspace
 
-     git clone https://github.com/idelfrides/IJGeneralUsagePackage.git
+     git clone https://github.com/idelfrides/IJGeneralUsagePackage
 
 
 ### 2 | Create your virtualenv like ( use Python 3.x )
@@ -26,7 +26,7 @@ If you are using fish, write
 
 ### 4 | To Install requirements, switch to IJGeneralUsagePackage. In your terminal, type
 
-     cd IJGeneralUsagePackage
+     cd IJGeneralUsagePackage/
 
 
 ### 5 | Install requirements
