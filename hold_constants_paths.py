@@ -12,7 +12,6 @@ SLEEP_TIME_ONE = 1     # 1 minute
 SLEEP_TIME_TWO = 2     # 2 minute
 SLEEP_TIME_THREE = 3   # 3 minute
 
-
 HEADER_PIPE_SEPARATOR = '|'
 HEADER_COMMER_SEPARATOR = ','
 CURRENT_WORK_SPACE = os.getcwd()
@@ -24,6 +23,8 @@ OPERATION_TYPE = {
     "write binary": "wb",
 }
 
+MIN_LIMIT = 1
+MAX_LIMIT = 100
 
 # paths goes here
 

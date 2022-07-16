@@ -4,6 +4,7 @@
 
 import glob
 import pstats
+from random import randint
 import time
 from datetime import datetime
 import wget
@@ -18,7 +19,8 @@ from selenium.webdriver.common.keys import Keys  # cpntrola o teclado do seu PC
 from selenium.webdriver.common.by import By
 
 from .hold_constants_paths import (
-    IJGU_PACKAGE
+    IJGU_PACKAGE, MIN_LIMIT,
+    MAX_LIMIT
 )
 
 
@@ -353,6 +355,73 @@ def clean_diretory(folder_path, keet_files=[]):
 
 
     print_log('DONE')
+
+
+def show_info(**kwarg):
+
+
+
+    if kwarg['type_'] == 'app_info':
+
+        info = f"""
+        ----------------------------------------------------------
+                APP NAME: [ {kwarg['app_name']} ]
+                SMALL DESCRIPTION --> {kwarg['desc_']}
+                APP VERSION --> {kwarg['verion_']}
+                {kwarg['user_key']} --> {kwarg['user_value']}
+        ----------------------------------------------------------
+        """
+
+    if kwarg['type_'] == 'round':
+
+        info = f"""
+        ----------------------------------------------------------
+                GAME ROUND : [ {kwarg['value_']} ]
+                PLAYER PROFILE --> {kwarg['player']}
+                PLAYER BALANCE --> {kwarg['balance']}
+        ----------------------------------------------------------
+        """
+
+    if kwarg['type_'] == 'game_info':
+
+        info = f"""
+        ----------------------------------------------------------
+                SIMULATION/PARTIDA --> [ {kwarg['value_']} ]
+                GAME ROUND --> [ {kwarg['value_round']} ]
+                PLAYER PROFILE --> {kwarg['player']}
+                PLAYER BALANCE --> {kwarg['balance']}
+        ----------------------------------------------------------
+        """
+
+    if kwarg['type_'] == 'simulation':
+
+        info = f"""
+        ---------------------------------------------------------
+
+                GAME SIMULATION/PARTIDA : [ {kwarg['value_']} ]
+
+        ----------------------------------------------------------
+        """
+
+    print(info)
+
+    return
+
+
+def define_randomic_number(min_limit=MIN_LIMIT, max_limit=MAX_LIMIT):
+    """
+        DEFAULT VALUES
+        min_limt = 1 | max_limit = 100
+
+    """
+
+    print_log(f'RANDOMIC DEFINING ORDER/NUMBER ...')
+
+    random_number = randint(min_limit, max_limit)
+
+    print_log(f'GENERATED NUMBER IS --> {random_number}')
+
+    return random_number
 
 
 
