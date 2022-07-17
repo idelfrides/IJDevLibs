@@ -47,3 +47,9 @@ If you are using fish, write
 ### 8 | [WARNING ] If you get some Error from the lib, it should be because of PATH SYSTEM. I recomend you run a folling module:
 
      python IJGeneralUsagePackage/prepare_environment.py
+
+### 9 | UPDATE this package in your workspace whenever you need. Remove the lib, then make clone like STEP #1.
+
+     rm -R IJGeneralUsagePackage/
+
+### 10 | Execute STEP 1
