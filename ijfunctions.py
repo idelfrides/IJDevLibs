@@ -216,7 +216,26 @@ def print_log(content):
     return
 
 
-def make_response(total_minutes, total_seconds, source_data):
+def make_response(**kwargs):
+
+    total_minutes = kwargs['total_minutes']
+    total_seconds = kwargs['total_seconds']
+    user_key = kwargs.get('user_key', '')
+    user_key_value = kwargs.get('user_key_value', '')
+
+    if (not user_key_value and user_key) or (not user_key and user_key_value):
+        build_line('bad-', 100)
+        print_log('\n\n WARNING: \n PARAMETERS "user_key" and  "user_key_value" WORKS TOGETHER. SO, YOU NEED TO SET ALL OF THEM.')
+        build_line('bad-', 100)
+        make_sound()
+        return
+
+    # if not user_key and user_key_value:
+    #     build_line('bad-', 100)
+    #     print_log('\n\n WARNING: \n IF YOU SET "user_key" PARAMETER YOU NEED TO SET "user_key_value" TOO.')
+    #     build_line('bad-', 100)
+    #     return
+
 
     build_line('*', 80)
 
@@ -224,9 +243,9 @@ def make_response(total_minutes, total_seconds, source_data):
     {
         'state': 'SUCCESS',
         'status': 200,
-        'source data': '%s',
+        '%s': '%s',
         'total time': '%.0f minute(s) e %.0f miliseconds'
-    }""" % (str(source_data).upper(), int(total_minutes), int(total_seconds)), 200)
+    }""" % (str(user_key).upper(), user_key_value, int(total_minutes), int(total_seconds)), 200)
 
     print('{}'.format(ij_jsonify[0]))
 
