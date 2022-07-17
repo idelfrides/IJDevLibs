@@ -237,7 +237,7 @@ def make_response(**kwargs):
     #     return
 
 
-    build_line('*', 80)
+    build_line('#', 100)
 
     ij_jsonify = ("""
     {
@@ -249,7 +249,7 @@ def make_response(**kwargs):
 
     print('{}'.format(ij_jsonify[0]))
 
-    build_line('*', 80)
+    build_line('#', 100)
 
     return
 
