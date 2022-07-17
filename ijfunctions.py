@@ -121,6 +121,43 @@ def chdir_with_log(workspace=None, return_cwdir='No'):
     return
 
 
+def gerador_braleiro_api_tofile(self, type_data=None, quantity_cpf=None):
+    print_log(f'GETTING {quantity_cpf} CPFs TO FILE')
+
+    BASE_URL = 'https://geradorbrasileiro.com/api/faker'
+    rest_url = '/'.join([BASE_URL, type_data])
+
+    url_params = {
+        'limit': quantity_cpf
+    }
+
+    try:
+        payload = requests.get(rest_url, params=url_params)
+    except Exception as error:
+        print_log(f'EXCEPTION: {error}')
+        raise
+
+    cpf_content = payload.json()
+    write_cpf_infile(cpf_content.get('values'))
+
+    return
+
+
+def write_cpf_infile(cpf_list):
+    print_log(f'WRITTING [ {len(cpf_list)} ] CPFs TO FILE ...')
+
+    chdir_witout_log(workspace='utils')
+    file_name = 'CPF_file.text'
+
+    with open(file_name, 'w', encoding='utf-8') as file_obj:
+        for cpf in cpf_list:
+            cpf_with_end_line = cpf + '\n'
+            file_obj.write(cpf_with_end_line)
+
+    print_log('DONE')
+
+    return
+
 def chdir_witout_log(workspace=None, return_cwdir='No'):
     """ ready to use """
 
@@ -367,7 +404,7 @@ def clean_diretory(folder_path, keet_files=[]):
         except Exception as error_file:
             print_log(f'EXCEPTION FILE: {error_file}')
             try:
-                os.removedirs(file_)
+                os.rmdir(file_)
             except Exception as error_dir:
                 print_log(f'EXCEPTION DIR: {error_dir}')
                 continue
