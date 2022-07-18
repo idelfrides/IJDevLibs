@@ -38,7 +38,7 @@ If you are using fish, write
 
 ### 7 | Now, to use some function you need to make it importation, from this package. like that
 
-     from IJGeneralUsagePackage.ijhandlefiles import (
+     from IJGeneralUsagePackage.IJGeneralLib import (
           create_diretory,
           write_content_infile,
           write_log_file

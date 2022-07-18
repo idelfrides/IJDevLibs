@@ -3,22 +3,16 @@
 # encoding: utf-8
 
 import glob
-import pstats
 from random import randint
 import time
 from datetime import datetime
 import wget
 import requests
 import os, shutil
-import pyautogui
-import pandas as pd
-from playwright.sync_api import sync_playwright
 
-from selenium import webdriver                   # controle o browser
-from selenium.webdriver.common.keys import Keys  # cpntrola o teclado do seu PC
-from selenium.webdriver.common.by import By
+from IJhandleFilesLib import write_list_content_infile
 
-from .hold_constants_paths import (
+from .holdConstantsPaths import (
     IJGU_PACKAGE, MIN_LIMIT,
     MAX_LIMIT
 )
@@ -101,63 +95,6 @@ def build_line(shape, length_line):
     return
 
 
-def chdir_with_log(workspace=None, return_cwdir='No'):
-    project_root_dir = os.path.dirname(os.path.abspath(__file__))
-
-    project_root_dir = project_root_dir.split('/IJGeneralUsagePackage')[0]
-    os.chdir(project_root_dir)
-
-    if not workspace:
-        print_log(f'CHANGING WORKSPACE TO DIR --> [ {project_root_dir} ] ...')
-    else:
-        print_log(f'CHANGING WORKSPACE TO DIR --> [ {workspace} ] ...')
-        os.chdir(workspace)
-
-    if return_cwdir.upper() == 'YES':
-        return os.getcwd()
-
-    print_log(' CHANGING WORKSPACE DONE')
-
-    return
-
-
-def gerador_braleiro_api_tofile(self, type_data=None, quantity_cpf=None):
-    print_log(f'GETTING {quantity_cpf} CPFs TO FILE')
-
-    BASE_URL = 'https://geradorbrasileiro.com/api/faker'
-    rest_url = '/'.join([BASE_URL, type_data])
-
-    url_params = {
-        'limit': quantity_cpf
-    }
-
-    try:
-        payload = requests.get(rest_url, params=url_params)
-    except Exception as error:
-        print_log(f'EXCEPTION: {error}')
-        raise
-
-    cpf_content = payload.json()
-    write_cpf_infile(cpf_content.get('values'))
-
-    return
-
-
-def write_cpf_infile(cpf_list):
-    print_log(f'WRITTING [ {len(cpf_list)} ] CPFs TO FILE ...')
-
-    chdir_witout_log(workspace='utils')
-    file_name = 'CPF_file.text'
-
-    with open(file_name, 'w', encoding='utf-8') as file_obj:
-        for cpf in cpf_list:
-            cpf_with_end_line = cpf + '\n'
-            file_obj.write(cpf_with_end_line)
-
-    print_log('DONE')
-
-    return
-
 def chdir_witout_log(workspace=None, return_cwdir='No'):
     """ ready to use """
 
@@ -180,9 +117,65 @@ def chdir_witout_log(workspace=None, return_cwdir='No'):
     return
 
 
+def chdir_with_log(workspace=None, return_cwdir='No'):
+    project_root_dir = os.path.dirname(os.path.abspath(__file__))
+
+    project_root_dir = project_root_dir.split('/IJGeneralUsagePackage')[0]
+    os.chdir(project_root_dir)
+
+    if not workspace:
+        print_log(f'CHANGING WORKSPACE TO DIR --> [ {project_root_dir} ] ...')
+    else:
+        print_log(f'CHANGING WORKSPACE TO DIR --> [ {workspace} ] ...')
+        os.chdir(workspace)
+
+    if return_cwdir.upper() == 'YES':
+        print_log(' CHANGING WORKSPACE DONE')
+        return os.getcwd()
+
+    print_log(' CHANGING WORKSPACE DONE')
+
+    return
+
+
+def show_warning(**kwargs):
+
+    if kwargs['type_'] == 'warning':
+
+        warning_info = f"""
+        warning--warning--warning--warning--warning--warning--warning--warning-
+
+                                   WARNING
+        -----------------------------------------------------------------------
+
+                WARNING TYPE/NAME: [ {kwargs['type_name']} ]
+                SMALL DESCRIPTION --> {kwargs['desc_']}
+                {kwargs['user_key']} --> {kwargs['user_key_value']}
+
+        warning--warning--warning--warning--warning--warning--warning--warning-
+        """
+
+    print(warning_info)
+    make_sound(frequency=150)
+    time.sleep(20)
+
+    return
+
+
 def delete_file(dir_name, file_name):
 
     print_log(f'REMOVING FILE [{file_name}] IN DIR --> [ {dir_name} ] ')
+
+    if not dir_name or not file_name:
+        show_warning(
+            type_='warning',
+            type_name='ARGUMENTS EMPTY',
+            desc_= 'parameter [dir_name, file_name] ARE REQUIRED',
+            user_key='BE A MAN',
+            user_key_value='FILL THOSE PARAMETER WITH VALID VALUES'
+        )
+
+        return
 
     chdir_witout_log(workspace=dir_name)
 
@@ -191,13 +184,20 @@ def delete_file(dir_name, file_name):
     except Exception as error_file:
         print_log(f'EXCEPTION FILE: {error_file}')
 
+    chdir_witout_log()    # back to root project
     print_log('DONE')
 
     return
 
 
-
 def delete_dir(workspace_name=None, dir_name_list=[]):
+    """ Pass only folder structure without last backslash '/'.
+
+    Exemple:
+        [1] DIR_1/DIR_2
+        [2] DIR_1/DIR_2/DIR_3
+
+    """
 
     cwd = chdir_witout_log(workspace=workspace_name, return_cwdir='yes')
     workspace_name = cwd.split('/')[-1]
@@ -219,10 +219,10 @@ def delete_dir(workspace_name=None, dir_name_list=[]):
             chdir_witout_log()
             os.rmdir(dir_name)
 
-        print_log('DONE')
+    chdir_witout_log()   # back to root project
+    print_log('DONE')
 
     return
-
 
 
 def copy_libs(originDir=None, destinyDir=None):
@@ -345,7 +345,7 @@ def download_images_from_server(url_image_list, save_image_dir, wget_lib=None):
 
 
 
-def copy_or_move_files(file_name='', operation='', originPath='', destinyPath=''):
+def copy_or_move_files(file_name, operation, originPath, destinyPath):
 
     """ Make COPY or MOVE a folder especified on parameter destinyPath.
 
@@ -389,6 +389,10 @@ def clean_diretory(folder_path, keet_files=[]):
 
     """
 
+    if not folder_path:
+        print_log('"folder_path" parameter is EMPTY')
+        return
+
     folder_name = str(folder_path).split('/')[-1]
 
     print_log(f'REMOVING ALL FILES IN FOLDER --> [ {folder_name} ] ')
@@ -410,51 +414,50 @@ def clean_diretory(folder_path, keet_files=[]):
                 continue
 
 
+    chdir_witout_log()    # back to root project
     print_log('DONE')
 
 
-def show_info(**kwarg):
+def show_info(**kwargs):
 
-
-
-    if kwarg['type_'] == 'app_info':
+    if kwargs['type_'] == 'app_info':
 
         info = f"""
-        ----------------------------------------------------------
-                APP NAME: [ {kwarg['app_name']} ]
-                SMALL DESCRIPTION --> {kwarg['desc_']}
-                APP VERSION --> {kwarg['verion_']}
-                {kwarg['user_key']} --> {kwarg['user_value']}
-        ----------------------------------------------------------
+        ------------------------------------------------------------
+                APP NAME: [ {kwargs['app_name']} ]
+                SMALL DESCRIPTION --> {kwargs['desc_']}
+                APP VERSION --> {kwargs['version_']}
+                {kwargs['user_key']} --> {kwargs['user_key_value']}
+        -------------------------------------------------------------
         """
 
-    if kwarg['type_'] == 'round':
+    if kwargs['type_'] == 'round_info':
 
         info = f"""
-        ----------------------------------------------------------
-                GAME ROUND : [ {kwarg['value_']} ]
-                PLAYER PROFILE --> {kwarg['player']}
-                PLAYER BALANCE --> {kwarg['balance']}
-        ----------------------------------------------------------
+        ------------------------------------------------------------
+                GAME ROUND : [ {kwargs['value_']} ]
+                PLAYER PROFILE --> {kwargs['player']}
+                PLAYER BALANCE --> {kwargs['balance']}
+        ------------------------------------------------------------
         """
 
-    if kwarg['type_'] == 'game_info':
+    if kwargs['type_'] == 'game_info':
 
         info = f"""
-        ----------------------------------------------------------
-                SIMULATION/PARTIDA --> [ {kwarg['value_']} ]
-                GAME ROUND --> [ {kwarg['value_round']} ]
-                PLAYER PROFILE --> {kwarg['player']}
-                PLAYER BALANCE --> {kwarg['balance']}
-        ----------------------------------------------------------
+        ------------------------------------------------------------
+                SIMULATION/PARTIDA --> [ {kwargs['value_']} ]
+                GAME ROUND --> [ {kwargs['value_round']} ]
+                PLAYER PROFILE --> {kwargs['player']}
+                PLAYER BALANCE --> {kwargs['balance']}
+        ------------------------------------------------------------
         """
 
-    if kwarg['type_'] == 'simulation':
+    if kwargs['type_'] == 'simulation_info':
 
         info = f"""
-        ---------------------------------------------------------
+        ----------------------------------------------------------
 
-                GAME SIMULATION/PARTIDA : [ {kwarg['value_']} ]
+                GAME SIMULATION/PARTIDA : [ {kwargs['value_']} ]
 
         ----------------------------------------------------------
         """
@@ -464,7 +467,7 @@ def show_info(**kwarg):
     return
 
 
-def define_randomic_number(min_limit=MIN_LIMIT, max_limit=MAX_LIMIT):
+def define_random_number(min_limit=MIN_LIMIT, max_limit=MAX_LIMIT):
     """
         DEFAULT VALUES
         min_limt = 1 | max_limit = 100
@@ -480,100 +483,90 @@ def define_randomic_number(min_limit=MIN_LIMIT, max_limit=MAX_LIMIT):
     return random_number
 
 
+def brasilian_api_generator(type_data=None, quantity=1000):
+    print_log(f'GETTING {quantity} CPFs TO FILE')
 
-class HoldSomeThing:
+    BASE_URL = 'https://geradorbrasileiro.com/api/faker'
+    rest_url = '/'.join([BASE_URL, type_data])
 
-    def __init__(self, some_obj):
-        self.__some_sent = some_obj
+    url_params = {
+        'limit': quantity
+    }
 
-    # Getter
-    def get_some_sent(self):
-        return self.__some_sent
+    try:
+        payload = requests.get(rest_url, params=url_params)
+    except Exception as error:
+        print_log(f'EXCEPTION: {error}')
+        raise
 
-    # Setter
-    def set_some_sent(self, something):
-        self.__some_sent = something
+    _content_ = payload.json()
+
+    print_log('DONE')
+
+    return _content_
 
 
-
-def bot_convert_file():
+def brasilian_api_generator_tofile(**kwargs):
 
     """
-        IN construction yet
-        TODO: FINISH THIS FUNCTION
+        Informe values for all paramters, like this
+
+        type_data='TYPE DATA',
+        quantity='QUANTITY NUMBER',
+        distiny_dir='DISTINY DIR',
+        file_name='FILE NAME',
+        operation_type='OPERATION TYPE' | CAN BE 'w', 'a'
+
     """
 
-    XPATH_LOAD_FILE = '//*[@id="filebutton"]'
-    XPATH_CONVERT_FILE = '//*[@id="convertbutton"]'
+    type_data = kwargs.get('type_data')
+    quantity = kwargs.get('quantity', 1000)
+    distiny_dir = kwargs.get('distiny_dir')
+    file_name = kwargs.get('file_name')
+    operation_type = kwargs.get('operation_type')
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        # browser = p.firefox.launch(headless=False)
-        page = browser.new_page()
+    print_log(f'GETTING {quantity} CPFs TO FILE {file_name} ...')
 
-        page.goto('https://cdkm.com/pt/xml-to-csv')
-        page.click(XPATH_LOAD_FILE)
-        time.sleep(10)
+    _content = brasilian_api_generator(type_data=type_data, quantity=quantity)
 
-        # import pdb; pdb.set_trace()
+    write_list_content_infile(
+        content_list=_content,
+        distiny_dir=distiny_dir,
+        file_name=file_name,
+        operation_type=operation_type
+    )
 
-        # click on outros locais
-        pyautogui.click(x=997, y=1021)
-        time.sleep(5)
-
-        # import pdb; pdb.set_trace()
-
-        posi = pyautogui.position()
-        print_log(posi)
-        # pyautogui.click(x=1135, y=1022)
-
-        posi = pyautogui.position()
-        print_log(posi)
-
-        # pyautogui.__loader__()
-        # pyautogui.__file__()
-        # pyautogui.locate()
-
-        # click in DATA
-        pyautogui.click(x=1180, y=500)
-        time.sleep(5)
-
-        # click on PROFISSIONAL folder
-        pyautogui.click(x=1180, y=500, clicks=2)
-        time.sleep(5)
-
-        # click on VALERIA_FERREIRA_LIMA folder  | 2X
-        pyautogui.click(x=1180, y=500, clicks=2)
-        time.sleep(5)
-
-        # click on COMERCIALFERREIRALIMA folder | 2x
-        pyautogui.click(x=1180, y=500, clicks=2)
-        time.sleep(5)
-
-        # click on 'produtos_pr_csv' file | 1x
-        pyautogui.click(x=1180, y=500, clicks=2)
-        time.sleep(5)
-
-        # import pdb; pdb.set_trace()
-
-        posi = pyautogui.position()
-
-        print_log(posi)
-
-        # press to make converting
-        page.click(XPATH_CONVERT_FILE)
-        waitting_converting = convert_minutes_to_second(7)
-        time.sleep(waitting_converting)
-
-        # download result file
-        page.click('x')
-        waitting_download = convert_minutes_to_second(7)
-        time.sleep(waitting_download)
-
-        browser.close()
-
-        time.sleep(30)
-
-        print_log('CONVERT FILE TO CSV DONE... \n [STATUS: SUCCESS]')
+    print_log('DONE')
 
     return
+
+
+def get_random_user_api():
+    """
+    Retun
+        --> user_full_name
+        --> user_content
+
+    """
+
+    print_log(f'GETTING ONE USER FROM API ...')
+
+    BASE_URL = 'https://randomuser.me/api/'
+
+    try:
+        payload = requests.get(BASE_URL)
+    except Exception as e:
+        print_log(f'EXCEPTION OCCORRED {e} \n\nGOING TO USE DEFAULT_PERSON_NAME \n\n')
+        return 'Stark Bank Person'
+
+    payload_content = payload.json()
+    user_data = payload_content['results'][0]['name']
+
+    user_full_name = (
+        user_data['title'] + ' ' + user_data['first'] + ' ' + user_data['last']
+    )
+
+    user_content = f'USER: {user_full_name}'
+
+    print_log(f'DONE')
+    return user_full_name, user_content

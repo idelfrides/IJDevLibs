@@ -2,8 +2,24 @@
 # encoding: utf-8
 
 
-from time import sleep
 import os
+
+
+# ---------------------------------------------------------
+
+class HoldSomeThing:
+
+    def __init__(self, some_obj):
+        self.__some_sent = some_obj
+
+    # Getter
+    def get_some_sent(self):
+        return self.__some_sent
+
+    # Setter
+    def set_some_sent(self, something):
+        self.__some_sent = something
+
 
 # contants goes here
 
@@ -14,9 +30,10 @@ SLEEP_TIME_THREE = 3   # 3 minute
 
 HEADER_PIPE_SEPARATOR = '|'
 HEADER_COMMER_SEPARATOR = ','
+
 CURRENT_WORK_SPACE = os.getcwd()
 
-OPERATION_TYPE = {
+FILE_OPERATION_TYPE = {
     "read": "a",
     "write": "w",
     "add new": "a",

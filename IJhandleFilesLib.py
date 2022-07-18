@@ -7,16 +7,15 @@
 
 
 import glob
-import os, shutil
 from datetime import datetime
+import os
 import pandas as pd
 
-from .ijfunctions import (
+from .IJGeneralLib import (
     print_log, chdir_witout_log,
-    chdir_with_log
 )
 
-from .hold_constants_paths import (
+from .holdConstantsPaths import (
     HEADER_PIPE_SEPARATOR
 )
 
@@ -35,7 +34,7 @@ def convert_xlsx_to_csv_file(origin_full_file_path, destiny_real_path, result_fi
     xlsx_content.to_csv(destiny_real_path + real_result_file_name, sep='|')
 
 
-def write_content_infile(content_list, distiny_dir, file_name, operation_type='w'):
+def write_list_content_infile(content_list, distiny_dir, file_name, operation_type='w'):
     print_log(f'WRITTING [ {len(content_list)} ] CONTENT TO FILE {file_name}...')
 
     chdir_witout_log()
@@ -56,6 +55,7 @@ def write_content_infile(content_list, distiny_dir, file_name, operation_type='w
             cpf_with_end_line = str(content_) + '\n'
             file_obj.write(cpf_with_end_line)
 
+    chdir_witout_log()
     print_log('DONE')
 
     return
@@ -70,10 +70,10 @@ def create_file(distiny_dir, file_name):
         print_log('EXCEPTION: {excep}')
 
 
+    chdir_witout_log(workspace=distiny_dir)
+
     if os.path.exists(file_name): # file existis
         print_log(f'FILE [{file_name}] ALREADY EXISTS IN DIR [ {distiny_dir} ]')
-
-        print_log('DONE')
 
     else: # file do not existis yet
 
@@ -81,9 +81,11 @@ def create_file(distiny_dir, file_name):
             file_name = file_name + '.text'
 
         with open(file_name, 'w', encoding='utf-8') as file_obj:
-            file_obj.write('')
+            file_obj.write('INITIAL CONTENT: CREATING THIS FILE')
 
-        print_log('DONE')
+
+    chdir_witout_log()
+    print_log('DONE')
 
     return
 
@@ -104,20 +106,15 @@ def create_diretory(dirname, workspace_=None):
         print_log('EXCEPTION: {excep}')
         print_log(f'FILE [{dirname}] ALREADY EXISTS IN WORKSPACE [ {workspace_} ]')
 
+
+    chdir_witout_log()
     print_log('DONE')
 
     return
 
 
-def read_content_fromfile(distiny_dir, file_name):
+def readlines_content_fromfile(distiny_dir, file_name):
     print_log(f'READING content from file {file_name}...')
-
-    chdir_witout_log()
-
-    try:
-        os.mkdir(distiny_dir)
-    except Exception as excep:
-        print_log('EXCEPTION: {excep}')
 
     chdir_witout_log(workspace=distiny_dir)
 
@@ -128,7 +125,28 @@ def read_content_fromfile(distiny_dir, file_name):
     with open(file_name, 'r', encoding='utf-8') as file_obj:
         file_content = file_obj.readlines()
 
+
+    chdir_witout_log()
     print_log('DONE')
+
+    return file_content
+
+
+def read_content_fromfile(distiny_dir, file_name):
+    print_log(f'READING content from file {file_name}...')
+
+    chdir_witout_log(workspace=distiny_dir)
+
+    if not len(str(file_name).split('.')) == 2:
+        file_name = file_name + '.text'
+
+
+    with open(file_name, 'r', encoding='utf-8') as file_obj:
+        file_content = file_obj.read()
+
+
+    print_log('DONE')
+    chdir_witout_log()
 
     return file_content
 
@@ -138,7 +156,7 @@ def write_log_file(**kwarg):
 
     content='SOME CONTENT'
     distiny_dir='DESTINY DIR NAME'
-    filename='YOUR FILENAME'
+    filename='YOUR FILENAME' WITHOUT '.log'
     """
 
     chdir_witout_log()
@@ -166,6 +184,7 @@ def write_log_file(**kwarg):
         real_content  = '| '.join([log_time, content])
         file_obj.write(real_content)
 
+    chdir_witout_log()
     print_log('DONE')
 
     return
@@ -175,18 +194,16 @@ def join_files(full_path_files, files_names=[]):
     pass
 
 
-def clean_folder(folder_path, keet_files=[]):
-    """ Clean a folder especified on parameter folder_path.
+def clean_folder(folder_name=None, keet_files=[]):
+    """ Clean a folder especified on parameter folder_name.
 
-        NOTE 1: informe the real full path of the folder you want to clean up WITHOUT '/' at last of string path
+        NOTE 1: informe the real name of the folder you want to clean up WITHOUT '/' at last of string path
 
     """
 
-    folder_name = str(folder_path).split('/')[-1]
-
     print_log(f'REMOVING ALL FILES IN FOLDER --> [ {folder_name} ] ')
 
-    chdir_witout_log(workspace=folder_path)
+    chdir_witout_log(workspace=folder_name)
 
     for file_ in glob.glob('*', recursive=True):
         if file_ in keet_files:
@@ -197,12 +214,13 @@ def clean_folder(folder_path, keet_files=[]):
         except Exception as error_file:
             print_log(f'EXCEPTION FILE: {error_file}')
             try:
-                os.removedirs(file_)
+                os.rmdir(file_)
             except Exception as error_dir:
                 print_log(f'EXCEPTION DIR: {error_dir}')
                 continue
 
 
+    chdir_witout_log()
     print_log('DONE')
     return
 
