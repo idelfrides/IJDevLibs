@@ -110,8 +110,6 @@ def chdir_witout_log(workspace=None, return_cwdir='No'):
         print_log('DONE')
         return os.getcwd()
 
-    print_log('DONE')
-
     return
 
 
@@ -529,7 +527,7 @@ def brasilian_api_generator(type_data=None, quantity=1000):
 
     print_log('DONE')
 
-    return _content_
+    return _content_.get('values')
 
 
 def brasilian_api_generator_tofile(**kwargs):
