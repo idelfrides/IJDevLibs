@@ -391,7 +391,7 @@ def clean_diretory(folder_path, keet_files=[]):
 
     folder_name = str(folder_path).split('/')[-1]
 
-    print_log(f'REMOVING ALL FILES IN FOLDER --> [ {folder_name} ] ')
+    print_log(f'REMOVING ALL FILES IN FOLDER --> [ {folder_name} ] ... ')
 
     chdir_witout_log(workspace=folder_path)
 
@@ -412,6 +412,7 @@ def clean_diretory(folder_path, keet_files=[]):
 
     chdir_witout_log()    # back to root project
     print_log('DONE')
+    return
 
 
 def show_info(**kwargs):
