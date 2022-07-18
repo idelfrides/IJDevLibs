@@ -34,33 +34,6 @@ def convert_xlsx_to_csv_file(origin_full_file_path, destiny_real_path, result_fi
     xlsx_content.to_csv(destiny_real_path + real_result_file_name, sep='|')
 
 
-def write_list_content_infile(content_list, distiny_dir, file_name, operation_type='w'):
-    print_log(f'WRITTING [ {len(content_list)} ] CONTENT TO FILE {file_name}...')
-
-    chdir_witout_log()
-    # chdir_witout_log(distiny_dir=distiny_dir)
-
-    try:
-        os.mkdir(distiny_dir)
-    except Exception as error:
-        print_log(f'EXCEPTION -> {error}')
-
-    chdir_witout_log(workspace=distiny_dir)
-
-    if not len(str(file_name).split('.')) == 2:
-        file_name = file_name + '.text'
-
-    with open(file_name, operation_type, encoding='utf-8') as file_obj:
-        for content_ in content_list:
-            cpf_with_end_line = str(content_) + '\n'
-            file_obj.write(cpf_with_end_line)
-
-    chdir_witout_log()
-    print_log('DONE')
-
-    return
-
-
 def create_file(distiny_dir, file_name):
     print_log(f'CREATING A FILE NAMED {file_name} IN DIR {distiny_dir}')
 

@@ -8,10 +8,9 @@ from selenium import webdriver                   # controle o browser
 from selenium.webdriver.common.keys import Keys  # cpntrola o teclado do seu PC
 from selenium.webdriver.common.by import By
 
-from IJGeneralLib import (
+from .IJGeneralLib import (
     convert_minutes_to_second, print_log
 )
-
 
 
 def bot_convert_file():

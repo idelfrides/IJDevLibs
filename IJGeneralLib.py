@@ -10,8 +10,6 @@ import wget
 import requests
 import os, shutil
 
-from IJhandleFilesLib import write_list_content_infile
-
 from .holdConstantsPaths import (
     IJGU_PACKAGE, MIN_LIMIT,
     MAX_LIMIT
@@ -481,6 +479,34 @@ def define_random_number(min_limit=MIN_LIMIT, max_limit=MAX_LIMIT):
     print_log(f'GENERATED NUMBER IS --> {random_number}')
 
     return random_number
+
+
+def write_list_content_infile(content_list, distiny_dir, file_name, operation_type='w'):
+    print_log(f'WRITTING [ {len(content_list)} ] CONTENT TO FILE {file_name}...')
+
+    chdir_witout_log()
+    # chdir_witout_log(distiny_dir=distiny_dir)
+
+    try:
+        os.mkdir(distiny_dir)
+    except Exception as error:
+        print_log(f'EXCEPTION -> {error}')
+
+    chdir_witout_log(workspace=distiny_dir)
+
+    if not len(str(file_name).split('.')) == 2:
+        file_name = file_name + '.text'
+
+    with open(file_name, operation_type, encoding='utf-8') as file_obj:
+        for content_ in content_list:
+            cpf_with_end_line = str(content_) + '\n'
+            file_obj.write(cpf_with_end_line)
+
+    chdir_witout_log()
+    print_log('DONE')
+
+    return
+
 
 
 def brasilian_api_generator(type_data=None, quantity=1000):
