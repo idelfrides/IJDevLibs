@@ -423,9 +423,9 @@ def show_info(**kwargs):
         info = f"""
         ------------------------------------------------------------
                 APP NAME: [ {kwargs['app_name']} ]
-                SMALL DESCRIPTION --> {kwargs['desc_']}
-                APP VERSION --> {kwargs['version_']}
-                {kwargs['user_key']} --> {kwargs['user_key_value']}
+                SMALL DESCRIPTION: {kwargs['desc_']}
+                APP VERSION: {kwargs['version_']}
+                {kwargs['user_key']}: {kwargs['user_key_value']}
         -------------------------------------------------------------
         """
 
@@ -434,8 +434,8 @@ def show_info(**kwargs):
         info = f"""
         ------------------------------------------------------------
                 GAME ROUND : [ {kwargs['value_']} ]
-                PLAYER PROFILE --> {kwargs['player']}
-                PLAYER BALANCE --> {kwargs['balance']}
+                PLAYER PROFILE: {kwargs['player']}
+                PLAYER BALANCE: {kwargs['balance']}
         ------------------------------------------------------------
         """
 
