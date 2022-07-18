@@ -580,9 +580,9 @@ def get_random_user_api():
 
     try:
         payload = requests.get(BASE_URL)
-    except Exception as e:
-        print_log(f'EXCEPTION OCCORRED {e} \n\nGOING TO USE DEFAULT_PERSON_NAME \n\n')
-        return 'Stark Bank Person'
+    except Exception as error:
+        print_log(f'EXCEPTION OCCORRED {error} \n\nGOING TO USE DEFAULT_PERSON_NAME \n\n')
+        return None, None
 
     payload_content = payload.json()
     user_data = payload_content['results'][0]['name']
