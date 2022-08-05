@@ -22,7 +22,8 @@ from utils.config_contants_paths import (
     WAIT_TIME_MINUTES
 )
 
-from ..IJGeneralLib import (
+from IJGeneralLib import (
+    home_stage_path,
     print_log
 )
 
@@ -73,8 +74,8 @@ class BrazilianGeneratorAPI(object):
 
             * type_data='TYPE DATA', can be [pessoa, cpf, cnpj, cnh, ...].  Default = pessoa\n
             * quantity='QUANTITY NUMBER', interger > 0. Default = 100\n
-            * distiny_dir='DISTINY DIR'
-            * file_name='FILE NAME',
+            * distiny_dir='DISTINY DIR', default ../stage/'FILES_DIRt'
+            * file_name='FILE NAME', default 'RANDOM_PERSON.text'
             * operation_type='OPERATION TYPE' . Can be 'w', 'a'. Default = 'a'
 
 
@@ -83,10 +84,12 @@ class BrazilianGeneratorAPI(object):
         persons_data = []
         exists_person = True
 
+        distiny_dir  = home_stage_path('FILES_DIR')
+
         type_data = kwargs.get('type_data', 'pessoa')
         quantity = kwargs.get('quantity', PERSON_QUANTITY)
-        distiny_dir = kwargs.get('distiny_dir')
-        file_name = kwargs.get('file_name')
+        distiny_dir = kwargs.get('distiny_dir', distiny_dir)
+        file_name = kwargs.get('file_name', 'RANDOM_PERSON.text')
         operation_type = kwargs.get('operation_type', 'a')
 
 

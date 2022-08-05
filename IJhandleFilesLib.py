@@ -12,7 +12,7 @@ from datetime import datetime
 import os
 import pandas as pd
 
-from .IJGeneralLib import (
+from IJGeneralLib import (
     print_log, chdir_witout_log,
 )
 

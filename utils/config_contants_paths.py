@@ -36,7 +36,8 @@ FILE_OPERATION_TYPE = {
 
 # ------------------------------- PATHS -------------------------------
 
-IJGU_PACKAGE = 'IJDevLibs/'
+IJDEVLIBS = 'IJDevLibs'
+IJDEVLIBS_SPLIT = f'/{IJDEVLIBS}'
 
 
 RANDOM_PERSON_FILE_PATH = '/'.join([os.path.dirname(os.path.abspath(__file__)), 'stage/FILES_DIR/RANDOM_PERSON.text'])
@@ -77,3 +78,8 @@ __api_credentials__ = {
     "api_name 3": "key or token 3",
     "api_name 4": "key or token 4",
 }
+
+APP_INFO = """
+    This is the package I use to help me on my projects.
+    This package contain several functions to build any application you as a Dev need.
+"""

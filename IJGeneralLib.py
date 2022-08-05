@@ -14,8 +14,10 @@ import requests
 import os, shutil
 
 from utils.config_contants_paths import (
+    IJDEVLIBS_SPLIT,
     MIN_LIMIT,
-    MAX_LIMIT
+    MAX_LIMIT,
+    IJDEVLIBS
 )
 
 
@@ -101,7 +103,7 @@ def chdir_witout_log(workspace=None, return_cwdir='No'):
 
     project_root_dir = os.path.dirname(os.path.abspath(__file__))
 
-    project_root_dir = project_root_dir.split('/IJGeneralUsagePackage')[0]
+    project_root_dir = project_root_dir.split(IJDEVLIBS_SPLIT)[0]
     os.chdir(project_root_dir)
 
     if not workspace:
@@ -119,7 +121,7 @@ def chdir_witout_log(workspace=None, return_cwdir='No'):
 def chdir_with_log(workspace=None, return_cwdir='No'):
     project_root_dir = os.path.dirname(os.path.abspath(__file__))
 
-    project_root_dir = project_root_dir.split('/IJGeneralUsagePackage')[0]
+    project_root_dir = project_root_dir.split(IJDEVLIBS_SPLIT)[0]
     os.chdir(project_root_dir)
 
     if not workspace:
@@ -559,24 +561,48 @@ def home_path(destiny_dir):
     return return_path
 
 
-def home_stage_path(destiny_dir):
+def home_stage_path(destiny_dir, clean_ifexists=False):
     """
     Defines path based on OS
     """
 
     # root_project = chdir_witout_log(return_cwdir='YES')
-    root_project = os.getcwd()
+    # root_project = os.getcwd()
+    root_project = get_my_project_root_path()
 
     # Emulate path for current project
     return_path = os.path.join(str(root_project), 'stage', destiny_dir, '')
 
-    # Create if not exists
-    try:
-        os.makedirs(return_path)
-    except OSError as exc:
-        if exc.errno == errno.EEXIST and os.path.isdir(return_path):
-            pass
-        else:
-            raise
+    if not clean_ifexists:
+        # Create if not exists
+        try:
+            os.makedirs(return_path)
+        except OSError as exc:
+            if exc.errno == errno.EEXIST and os.path.isdir(return_path):
+                pass
+            else:
+                raise
+
+    else:
+        # Create if not exists
+        try:
+            os.makedirs(return_path)
+        except OSError as exc:
+            if exc.errno == errno.EEXIST and os.path.isdir(return_path):
+                clean_diretory(folder_path=return_path)
+            else:
+                raise
+
 
     return return_path
+
+
+
+def get_my_project_root_path():
+    """# This function will return your root dir """
+
+    project_root_dir = os.path.dirname(os.path.abspath(__file__))
+
+    project_root_dir = project_root_dir.split(IJDEVLIBS_SPLIT)[0]
+
+    return project_root_dir

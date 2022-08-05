@@ -16,7 +16,7 @@ from utils.config_contants_paths import (
     WAIT_TIME_MINUTES
 )
 
-from ..IJGeneralLib import (
+from IJGeneralLib import (
     print_log
 )
 
