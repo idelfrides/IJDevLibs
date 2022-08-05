@@ -22,7 +22,6 @@ from utils.config_contants_paths import (
     APP_INFO
 )
 
-
 from setup_app import setupIJDevlibs
 
 #-------------------------------------------------------------------------
@@ -30,16 +29,15 @@ from setup_app import setupIJDevlibs
 #-------------------------------------------------------------------------
 
 
-
-# ------------------------------------------------------------------------
-
 @__app__.route('/home')
 @__app__.route('/inicio')
 @__app__.route('/index')
 @__app__.route('/')
 def hello():
 
-    return APP_INFO
+    print(APP_INFO)
+
+    return make_reponse(endpoint='home or inicio or index or /')
 
 
 @__app__.route('/ijdevlibs_setup')

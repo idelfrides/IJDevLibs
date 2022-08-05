@@ -4,7 +4,6 @@
 
 import os
 
-
 # ---------------------------- CONSTANTS -----------------------------
 
 PERSON_QUANTITY = 100
@@ -40,11 +39,10 @@ IJDEVLIBS = 'IJDevLibs'
 IJDEVLIBS_SPLIT = f'/{IJDEVLIBS}'
 
 
-RANDOM_PERSON_FILE_PATH = '/'.join([os.path.dirname(os.path.abspath(__file__)), 'stage/FILES_DIR/RANDOM_PERSON.text'])
+RANDOM_PERSON_FILE_PATH = 'stage/FILES_DIR/RANDOM_PERSON.text'
 
 
 CURRENT_WORK_SPACE = os.getcwd()
-
 
 
 # --------------------------- CLASSES ----------------------------------

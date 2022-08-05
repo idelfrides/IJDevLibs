@@ -27,7 +27,8 @@ from api_libs.ngrok_api_lib import (
 
 )
 
-# --------------------------------------------------------------
+
+# ---------------------------------------------------------------
 
 
 def setupIJDevlibs():
@@ -44,15 +45,20 @@ def setupIJDevlibs():
         print_log(f'EXCEPTION: {error}')
 
 
-    home_stage_path('OUTPUT_FILES', clean_ifexists=True)
+    home_stage_path(destiny_dir='OUTPUT_FILES', clean_ifexists=True)
 
-    home_stage_path('FILES_DIR')
+    home_stage_path(destiny_dir='FILES_DIR')
+
+    random_person_path = f'{root_proj}/{RANDOM_PERSON_FILE_PATH}'
 
 
-    if not os.path.exists(RANDOM_PERSON_FILE_PATH):
+    if not os.path.exists(random_person_path):
         if not brgenapi.brasilian_api_generator_tofile(
             type_data='pessoa'):
             return
+    else:
+        print_log('FILE [ {} ] ALREADY EXISTS.'.format(RANDOM_PERSON_FILE_PATH.split('/')[2]))
+
 
     # create_user_webhook()
 
@@ -63,13 +69,11 @@ def setupIJDevlibs():
 
 def create_user_webhook():
 
-
     ngrok = NgrokAPI()
 
     public_url = ngrok.get_ngrok_entity(endpoint='tunnels')
 
     public_url = '/'.join([public_url, 'starkbank_webhook'])
-
 
     return
 

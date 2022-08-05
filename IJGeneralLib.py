@@ -146,7 +146,7 @@ def show_warning(**kwargs):
         warning_info = f"""
         warning--warning--warning--warning--warning--warning--warning--warning-
 
-                                   WARNING
+                                    WARNING
         -----------------------------------------------------------------------
 
                 WARNING TYPE/NAME: [ {kwargs['type_name']} ]
@@ -394,9 +394,9 @@ def copy_or_move_files(file_name, operation, originPath, destinyPath):
 
 
 def clean_diretory(folder_path, keet_files=[]):
-    """ Clean a folder especified on parameter folder_path.
+    """## Clean a folder especified in parameter 'folder_path'.
 
-        NOTE 1: informe the real full path of the folder you want to clean up WITHOUT '/' at last of string path
+        #### NOTE 1: informe the real name of the folder you want to clean up WITHOUT '/' at last of string path
 
     """
 
@@ -573,13 +573,13 @@ def home_stage_path(destiny_dir, clean_ifexists=False):
     # Emulate path for current project
     return_path = os.path.join(str(root_project), 'stage', destiny_dir, '')
 
-    if not clean_ifexists:
-        # Create if not exists
+
+    if clean_ifexists:  # clean ij exists
         try:
             os.makedirs(return_path)
         except OSError as exc:
             if exc.errno == errno.EEXIST and os.path.isdir(return_path):
-                pass
+                clean_diretory(folder_path=f'stage/{destiny_dir}')
             else:
                 raise
 
@@ -589,7 +589,7 @@ def home_stage_path(destiny_dir, clean_ifexists=False):
             os.makedirs(return_path)
         except OSError as exc:
             if exc.errno == errno.EEXIST and os.path.isdir(return_path):
-                clean_diretory(folder_path=return_path)
+                pass
             else:
                 raise
 
