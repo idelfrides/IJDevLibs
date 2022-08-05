@@ -1,11 +1,11 @@
-# IJ General Usage Package
+# IJ Development Lib
 
 
 This is the package I use to help me on my projects.
 This package contain several functions to build any application you as a Dev need.
 
 
-## STEPS TO USE THIS PACKAGA LOCALY
+## STEPS TO USE THIS lib LOCALY
 
 ### 1 | Clone the remote repository to your workspace
 
