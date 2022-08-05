@@ -25,7 +25,7 @@ from utils.config_contants_paths import (
 from setup_app import setupIJDevlibs
 
 #-------------------------------------------------------------------------
-#                  RUN APP FUNCTION BEGIN HERE
+#                  APP ENDPOINTS BEGIN HERE
 #-------------------------------------------------------------------------
 
 

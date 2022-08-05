@@ -24,7 +24,7 @@ If you are using fish, write
 
      source [your_venv_name]/bin/activate.fish
 
-### 4 | To Install requirements, switch to IJGeneralUsagePackage. In your terminal, type
+### 4 | To Install requirements, switch to IJDevLibs. In your terminal, type
 
      cd IJDevLibs/
 
