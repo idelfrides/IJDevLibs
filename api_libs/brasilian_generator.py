@@ -9,7 +9,11 @@
 
 import requests
 import time
-from lib_manager import write_content_infile
+
+
+from IJhandleFilesLib import (
+    write_content_infile
+)
 
 from utils.config_contants_paths import (
     PERSON_QUANTITY,
