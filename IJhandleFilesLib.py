@@ -1,5 +1,6 @@
-#!/src/bin/env python3
-# encoding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 
 
 """ This module hold attributes and methods necessary to help
@@ -15,7 +16,8 @@ from .IJGeneralLib import (
     print_log, chdir_witout_log,
 )
 
-from .holdConstantsPaths import (
+from utils.config_contants_paths import (
+    FILE_OPERATION_TYPE,
     HEADER_PIPE_SEPARATOR
 )
 
@@ -61,7 +63,6 @@ def create_file(distiny_dir, file_name):
     print_log('DONE')
 
     return
-
 
 
 def create_diretory(dirname, workspace_=None):
@@ -230,7 +231,6 @@ def prepare_convert_files_to_csv(filetype=None, full_file_path=None, destiny_dir
     return
 
 
-
 def convert_xlsx_to_csv_file(origin_full_file_path, destiny_real_path, result_file_name):
 
     xlsx_content = pd.read_excel(origin_full_file_path)
@@ -239,6 +239,100 @@ def convert_xlsx_to_csv_file(origin_full_file_path, destiny_real_path, result_fi
 
     xlsx_content.to_csv(
         destiny_real_path + result_file_name, sep=HEADER_PIPE_SEPARATOR
+    )
+
+    return
+
+
+def write_output_file(**kwarg):
+
+    workspace_ = str(kwarg['workspace'])
+
+    if workspace_:
+        chdir_witout_log(workspace=workspace_)
+    else:
+        chdir_witout_log(workspace='stage/OUTPUT_FILES')
+
+
+    filename = kwarg['filename']
+    content = str(kwarg['content'])
+
+
+    with open(filename, 'a', encoding='utf-8') as file_obj:
+        content += '\n'
+        log_time = datetime.now()
+        log_time = f'[ {str(log_time)[:19]} ] '
+        real_content  = '| '.join([log_time, content])
+        file_obj.write(real_content)
+
+    chdir_witout_log()
+
+    return
+
+
+
+def write_content_infile(content_list, filename='RANDOM_PERSON.text', operation='a', workspace_='stage/FILES_DIR'):
+
+    chdir_witout_log(workspace=workspace_)
+
+    with open(filename, operation, encoding='utf-8') as file_obj:
+        for content_ in content_list:
+            content_ += '\n'
+            file_obj.write(content_)
+
+    chdir_witout_log()
+
+    return
+
+
+def get_random_person_from_local_file(local_dir='stage/FILES_DIR', filename='RANDOM_PERSON.text'):
+
+    chdir_witout_log(workspace=local_dir)
+
+    with open(filename, 'r', encoding='utf-8') as file_obj:
+        cpf_content = file_obj.read()
+        cpf_content = cpf_content.split('\n')
+
+    chdir_witout_log()
+
+    return cpf_content
+
+
+def get_project_informations(filename_=None):
+    """
+    ### return PROJECT_ID, PROJECT_NAME
+
+    """
+
+
+    if not filename_:
+        filename_ = 'project_infos.text'
+
+    infos = read_content_fromfile(
+        path_dir='stage/FILES_DIR',
+        file_name=filename_
+    )
+
+    infos = infos.split('\n')
+    id_ = infos[0].replace('PROJECT_ID=', '')
+    name_ = infos[1].replace('PROJECT_NAME=', '')
+
+    return id_, name_
+
+
+
+def save_project_informations(project_id, project_name):
+    file_name = 'project_infos.text'
+
+    project_id = f'PROJECT_ID={project_id}'
+    project_name = f'PROJECT_NAME={project_name}'
+
+    content_ = [project_id, project_name]
+
+    write_content_infile(
+        content_list=content_,
+        filename=file_name,
+        operation=FILE_OPERATION_TYPE['write']
     )
 
     return

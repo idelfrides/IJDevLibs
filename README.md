@@ -29,9 +29,15 @@ If you are using fish, write
      cd IJGeneralUsagePackage/
 
 
+### 5 | Upgrade pip
+
+     pip install -U pip or pip install --upgrade pip
+
+
 ### 5 | Install requirements
 
      pip install -r requirements.txt
+
 
 ### 6 | Take o look at modules to see and understand wicth functions you have in the lib. Go inside lib and take a look careful
 

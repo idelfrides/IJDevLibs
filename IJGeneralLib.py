@@ -1,7 +1,10 @@
 
-# !/src/bin/env python3
-# encoding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+
+
+import errno
 import glob
 from random import randint
 import time
@@ -10,8 +13,8 @@ import wget
 import requests
 import os, shutil
 
-from .holdConstantsPaths import (
-    IJGU_PACKAGE, MIN_LIMIT,
+from utils.config_contants_paths import (
+    MIN_LIMIT,
     MAX_LIMIT
 )
 
@@ -249,7 +252,18 @@ def print_log(content):
     return
 
 
-def make_response(**kwargs):
+def make_reponse(endpoint):
+
+    ij_jsonify = {
+        'state': 'SUCCESS',
+        'status': 200,
+        'function': '{}'.format(str(endpoint))
+    }
+
+    return ij_jsonify
+
+
+def complete_make_response(**kwargs):
 
     total_minutes = kwargs['total_minutes']
     total_seconds = kwargs['total_seconds']
@@ -338,7 +352,6 @@ def download_images_from_server(url_image_list, save_image_dir, wget_lib=None):
         )
 
     return
-
 
 
 def copy_or_move_files(file_name, operation, originPath, destinyPath):
@@ -464,10 +477,25 @@ def show_info(**kwargs):
     return
 
 
+def custom_show_info(some_code, person):
+    info = """
+    ---------------------------------------------------------------------------
+        CREATING INVOICE FOR --> [ {} ]
+        INVOICE ORDER --> [ {} ]
+    ---------------------------------------------------------------------------
+    """.format(person, some_code)
+
+    print(info)
+    time.sleep(3)
+
+    return
+
+
 def define_random_number(min_limit=MIN_LIMIT, max_limit=MAX_LIMIT):
     """
-        DEFAULT VALUES
-        min_limt = 1 | max_limit = 100
+    # define_random_number function
+    #### DEFAULT VALUES
+    ####   --> min_limt = 1 | max_limit = 100
 
     """
 
@@ -507,91 +535,48 @@ def write_list_content_infile(content_list, distiny_dir, file_name, operation_ty
     return
 
 
+def home_path(destiny_dir):
+    """
+    Defines path based on OS
+    """
 
-def brasilian_api_generator(type_data=None, quantity=1000):
-    print_log(f'GETTING {quantity} CPFs TO FILE')
+    # root_project = chdir_witout_log(return_cwdir='YES')
+    root_project = os.getcwd()
 
-    BASE_URL = 'https://geradorbrasileiro.com/api/faker'
-    rest_url = '/'.join([BASE_URL, type_data])
 
-    url_params = {
-        'limit': quantity
-    }
+    # Emulate path for current project
+    return_path = os.path.join(str(root_project), destiny_dir, '')
 
+    # Create if not exists
     try:
-        payload = requests.get(rest_url, params=url_params)
-    except Exception as error:
-        print_log(f'EXCEPTION: {error}')
-        raise
+        os.makedirs(return_path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(return_path):
+            pass
+        else:
+            raise
 
-    _content_ = payload.json()
-
-    print_log('DONE')
-
-    return _content_.get('values')
+    return return_path
 
 
-def brasilian_api_generator_tofile(**kwargs):
-
+def home_stage_path(destiny_dir):
     """
-        Informe values for all paramters, like this
-
-        type_data='TYPE DATA',
-        quantity='QUANTITY NUMBER',
-        distiny_dir='DISTINY DIR',
-        file_name='FILE NAME',
-        operation_type='OPERATION TYPE' | CAN BE 'w', 'a'
-
+    Defines path based on OS
     """
 
-    type_data = kwargs.get('type_data')
-    quantity = kwargs.get('quantity', 1000)
-    distiny_dir = kwargs.get('distiny_dir')
-    file_name = kwargs.get('file_name')
-    operation_type = kwargs.get('operation_type')
+    # root_project = chdir_witout_log(return_cwdir='YES')
+    root_project = os.getcwd()
 
-    print_log(f'GETTING {quantity} CPFs TO FILE {file_name} ...')
+    # Emulate path for current project
+    return_path = os.path.join(str(root_project), 'stage', destiny_dir, '')
 
-    _content = brasilian_api_generator(type_data=type_data, quantity=quantity)
-
-    write_list_content_infile(
-        content_list=_content,
-        distiny_dir=distiny_dir,
-        file_name=file_name,
-        operation_type=operation_type
-    )
-
-    print_log('DONE')
-
-    return
-
-
-def get_random_user_api():
-    """
-    Retun
-        --> user_full_name
-        --> user_content
-
-    """
-
-    print_log(f'GETTING ONE USER FROM API ...')
-
-    BASE_URL = 'https://randomuser.me/api/'
-
+    # Create if not exists
     try:
-        payload = requests.get(BASE_URL)
-    except Exception as error:
-        print_log(f'EXCEPTION OCCORRED {error} \n\nGOING TO USE DEFAULT_PERSON_NAME \n\n')
-        return None, None
+        os.makedirs(return_path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(return_path):
+            pass
+        else:
+            raise
 
-    payload_content = payload.json()
-    user_data = payload_content['results'][0]['name']
-
-    user_full_name = (
-        user_data['title'] + ' ' + user_data['first'] + ' ' + user_data['last']
-    )
-
-    user_content = f'USER: {user_full_name}'
-
-    print_log(f'DONE')
-    return user_full_name, user_content
+    return return_path

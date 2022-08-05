@@ -8,7 +8,7 @@ def setup_dev_environment():
     cwd = os.getcwd()
     cwd += '/'
 
-    ijgu_package_stage = cwd    # --> 'IJGeneralUsagePackage/'
+    ijgu_package_stage = cwd    # --> 'IJDevLibs/'
 
     for one_module in glob('*.py', recursive=True):
 
