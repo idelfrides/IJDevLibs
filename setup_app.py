@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-
 import os
 import time
 
 from IJGeneralLib import (
-    clean_diretory,
     get_my_project_root_path,
     print_log,
     home_stage_path
