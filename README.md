@@ -9,7 +9,7 @@ This package contain several functions to build any application you as a Dev nee
 
 ### 1 | Clone the remote repository to your workspace
 
-     git clone https://github.com/idelfrides/IJGeneralUsagePackage
+     git clone https://github.com/idelfrides/IJDevLibs
 
 
 ### 2 | Create your virtualenv like ( use Python 3.x )
@@ -26,7 +26,7 @@ If you are using fish, write
 
 ### 4 | To Install requirements, switch to IJGeneralUsagePackage. In your terminal, type
 
-     cd IJGeneralUsagePackage/
+     cd IJDevLibs/
 
 
 ### 5 | Upgrade pip
@@ -44,7 +44,7 @@ If you are using fish, write
 
 ### 7 | Now, to use some function you need to make it importation, from this package. like that
 
-     from IJGeneralUsagePackage.IJGeneralLib import (
+     from IJDevLibs.IJGeneralLib import (
           create_diretory,
           write_content_infile,
           write_log_file
@@ -52,10 +52,10 @@ If you are using fish, write
 
 ### 8 | [WARNING ] If you get some Error from the lib, it should be because of PATH SYSTEM. I recomend you run a folling module:
 
-     python IJGeneralUsagePackage/update_sys_path.py
+     python IJDevLibs/update_sys_path.py
 
 ### 9 | UPDATE this package in your workspace whenever you need. Remove the lib, then make clone like STEP #1.
 
-     rm -R IJGeneralUsagePackage/
+     rm -R IJDevLibs/
 
 ### 10 | Execute STEP 1
