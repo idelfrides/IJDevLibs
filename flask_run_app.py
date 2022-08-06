@@ -7,14 +7,10 @@ import os
 from random import randint
 import time
 
-from flask_app import __app__, render_template, request
+from flask_app import __app__
 
 # external lib importation
 from IJGeneralLib import (
-    clean_diretory, build_line,
-    convert_minutes_to_second,
-    make_sound, print_log,
-    show_info,
     make_reponse,
 )
 
@@ -50,7 +46,7 @@ def setup_starkbankapp(project_id=None, project_name=None):
 
 
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 
 
 if __name__ == '__main__':
