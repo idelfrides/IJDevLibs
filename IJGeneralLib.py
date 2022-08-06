@@ -141,6 +141,23 @@ def chdir_with_log(workspace=None, return_cwdir='No'):
 
 def show_warning(**kwargs):
 
+    """
+        # Show warning
+        ---
+
+        ### Required parametrs
+          * type_ -> type is  warning
+          * type_name -> the name of you warning
+          * desc_ -> warning description
+          * user_key -> your won field , which will be shown
+          * user_key_value -> the value for your won field , which will be shown
+
+
+        ### Example: see function  'delete_file' bellow
+
+
+    """
+
     if kwargs['type_'] == 'warning':
 
         warning_info = f"""
@@ -173,7 +190,7 @@ def delete_file(dir_name, file_name):
             type_name='ARGUMENTS EMPTY',
             desc_= 'parameter [dir_name, file_name] ARE REQUIRED',
             user_key='BE A MAN',
-            user_key_value='FILL THOSE PARAMETER WITH VALID VALUES'
+            user_key_value='FILL THOSE PARAMETERS WITH VALID VALUES'
         )
 
         return
@@ -201,6 +218,7 @@ def delete_dir(workspace_name=None, dir_name_list=[]):
     """
 
     cwd = chdir_witout_log(workspace=workspace_name, return_cwdir='yes')
+
     workspace_name = cwd.split('/')[-1]
 
     for dir_name in dir_name_list:
@@ -574,7 +592,7 @@ def home_stage_path(destiny_dir, clean_ifexists=False):
     return_path = os.path.join(str(root_project), 'stage', destiny_dir, '')
 
 
-    if clean_ifexists:  # clean ij exists
+    if clean_ifexists:  # clean if exists
         try:
             os.makedirs(return_path)
         except OSError as exc:
