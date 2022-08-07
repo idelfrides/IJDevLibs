@@ -13,7 +13,7 @@ import wget
 import requests
 import os, shutil
 
-from utils.config_contants_paths import (
+from .utils.config_contants_paths import (
     IJDEVLIBS_SPLIT,
     MIN_LIMIT,
     MAX_LIMIT,
@@ -99,7 +99,11 @@ def build_line(shape, length_line):
 
 
 def chdir_witout_log(workspace=None, return_cwdir='No'):
-    """ ready to use """
+    """## Change workspace to the one informed in parameter 'workspace'
+    ---
+
+    ### This function do not show log
+    """
 
     project_root_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -119,6 +123,12 @@ def chdir_witout_log(workspace=None, return_cwdir='No'):
 
 
 def chdir_with_log(workspace=None, return_cwdir='No'):
+    """## Change workspace to the one informed in parameter 'workspace'
+    ---
+
+    ### This function shows log
+     """
+
     project_root_dir = os.path.dirname(os.path.abspath(__file__))
 
     project_root_dir = project_root_dir.split(IJDEVLIBS_SPLIT)[0]
@@ -223,7 +233,7 @@ def delete_dir(workspace_name=None, dir_name_list=[]):
 
     for dir_name in dir_name_list:
 
-        print_log(f'REMOVING DIR {dir_name} IN WORKSPACE [{workspace_name}] ')
+        print_log(f'REMOVING DIR < {dir_name} > IN WORKSPACE [ {workspace_name} ] ')
 
         dir_path = cwd + '/' + dir_name
 
@@ -613,7 +623,6 @@ def home_stage_path(destiny_dir, clean_ifexists=False):
 
 
     return return_path
-
 
 
 def get_my_project_root_path():

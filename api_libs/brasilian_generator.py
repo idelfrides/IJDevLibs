@@ -11,18 +11,18 @@ import requests
 import time
 
 
-from IJhandleFilesLib import (
+from .IJhandleFilesLib import (
     write_content_infile
 )
 
-from utils.config_contants_paths import (
+from .utils.config_contants_paths import (
     PERSON_QUANTITY,
     __api_credentials__,
     TOTAL_TRIES,
     WAIT_TIME_MINUTES
 )
 
-from IJGeneralLib import (
+from .IJGeneralLib import (
     home_stage_path,
     print_log
 )
@@ -109,8 +109,7 @@ class BrazilianGeneratorAPI(object):
                 content_list=persons_data,
                 filename=file_name,
                 operation=operation_type,
-                workspace_=distiny_dir,
-
+                dirname=distiny_dir,
             )
 
             exists_person = True

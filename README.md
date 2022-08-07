@@ -24,19 +24,14 @@ If you are using fish, write
 
      source [your_venv_name]/bin/activate.fish
 
-### 4 | To Install requirements, switch to IJDevLibs. In your terminal, type
-
-     cd IJDevLibs/
-
-
-### 5 | Upgrade pip
+### 4 | Upgrade pip
 
      pip install -U pip or pip install --upgrade pip
 
 
 ### 5 | Install requirements
 
-     pip install -r requirements.txt
+     pip install -r IJDevLibs/requirements.txt
 
 
 ### 6 | Take o look at modules to see and understand wicth functions you have in the lib. Go inside lib and take a look careful
@@ -50,9 +45,28 @@ If you are using fish, write
           write_log_file
      )
 
-### 8 | [WARNING ] If you get some Error from the lib, it should be because of PATH SYSTEM. I recomend you run a folling module:
+### 8 | [WARNING ] If you get some Error from the lib, it should be because of PATH SYSTEM OR relative importation absence. :
+
+**RECOMENDATION 1 :** IF THE ERRO IS ONE OF THESE:
+
+**ModuleNotFoundError: No module named 'utils'** or **No module named IJGeneralLib**
+
+     Use relative importation putting dot before those diretories, like this
+
+     from .IJGeneralLib import (
+          print_log, chdir_witout_log,
+     )
+
+     from .utils.config_contants_paths import (
+          FILE_OPERATION_TYPE,
+          HEADER_PIPE_SEPARATOR
+     )
+
+
+**RECOMENDATION 2:** If the error is not one of previous, I recomend you run a folling module
 
      python IJDevLibs/update_sys_path.py
+
 
 ### 9 | UPDATE this package in your workspace whenever you need. Remove the lib, then make clone like STEP #1.
 

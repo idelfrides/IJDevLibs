@@ -12,11 +12,11 @@ from datetime import datetime
 import os
 import pandas as pd
 
-from IJGeneralLib import (
-    print_log, chdir_witout_log,
+from .IJGeneralLib import (
+    home_stage_path, print_log, chdir_witout_log,
 )
 
-from utils.config_contants_paths import (
+from .utils.config_contants_paths import (
     FILE_OPERATION_TYPE,
     HEADER_PIPE_SEPARATOR
 )
@@ -271,9 +271,11 @@ def write_output_file(**kwarg):
 
 
 
-def write_content_infile(content_list, filename='RANDOM_PERSON.text', operation='a', workspace_='stage/FILES_DIR'):
+def write_content_infile(content_list=['THIS IS IJDevLibs'], filename='RANDOM_PERSON.text', operation='a', dirname='FILES_DIR'):
 
-    chdir_witout_log(workspace=workspace_)
+    dirname = home_stage_path(dirname)
+
+    chdir_witout_log(workspace=dirname)
 
     with open(filename, operation, encoding='utf-8') as file_obj:
         for content_ in content_list:

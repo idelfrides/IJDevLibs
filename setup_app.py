@@ -29,7 +29,7 @@ from api_libs.ngrok_api_lib import (
 # ---------------------------------------------------------------
 
 
-def setupIJDevlibs():
+def setupIJDevlibs(clean_dir_if_exists=False):
 
     print_log('START MAKING ALL SETUP . . .')
 
@@ -43,9 +43,13 @@ def setupIJDevlibs():
         print_log(f'EXCEPTION: {error}')
 
 
-    home_stage_path(destiny_dir='OUTPUT_FILES', clean_ifexists=True)
+    home_stage_path(
+        destiny_dir='OUTPUT_FILES', clean_ifexists=clean_dir_if_exists
+    )
 
-    home_stage_path(destiny_dir='FILES_DIR')
+    home_stage_path(
+        destiny_dir='FILES_DIR', clean_ifexists=clean_dir_if_exists
+    )
 
     random_person_path = f'{root_proj}/{RANDOM_PERSON_FILE_PATH}'
 
